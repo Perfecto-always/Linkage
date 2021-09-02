@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Goblin+One&display=swap");
+
+/* STYLES */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0);
+    margin: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: gray;
+    border-radius: 5px;
+}
+
+html {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar {
+    @apply py-2 h-screen text-black border-r border-gray-200;
+}
+
+.sidebar .side-items {
+    @apply justify-center space-y-4;
+}
+
+.sidebar .side-items a {
+    @apply p-2 max-w-max block;
+}
+
+.main-content {
+    @apply w-full;
+}
+
+.sidebar a:hover {
+    @apply transition-colors duration-300 ease-in-out rounded-lg cursor-pointer;
+}
+
+.sidebar .side-items a:active {
+    @apply rounded-lg cursor-pointer;
+}
+
+.active {
+    @apply rounded-lg;
+}
+
+.gradient {
+    background: url("../assets/images/gradient.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@media (max-width: 768px) {
+    .gradient {
+        display: none;
+    }
+    .form-fields {
+        @apply w-full;
+    }
+}
+
+.form-full-page-container {
+    @apply w-full h-screen bg-gradient-to-r from-indigo-300 to-violet-300 flex justify-center self-center;
+}
+
+.form-container {
+    @apply w-9/12 h-5/6 bg-white absolute top-1/2 transform -translate-y-2/4 rounded-3xl flex shadow-2xl;
+}
+
+.form-side-container {
+    @apply w-5/12 h-full rounded-l-3xl;
+}
+
+.form-main-container {
+    @apply flex justify-center self-center w-8/12 h-full form-fields text-left;
+}
+
+.container-full-page {
+    @apply w-full h-screen flex justify-center self-center flex-col;
+}
+
+.error {
+    @apply text-9xl font-bold text-white tracking-wider relative;
+}
+
+.font-mono {
+    font-family: "Goblin One", cursive;
+}
+
+.active-nav {
+    @apply text-black;
+}
+
+.scroll-hidden::-webkit-scrollbar {
+    display: none;
+}
+
+.main-home {
+    height: calc(100vh - 5rem);
+}
