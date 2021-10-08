@@ -35,7 +35,8 @@ function ChatInput({ channelId, messages, setMessages }) {
   };
 
   useEffect(() => {
-    sockets.on("recieve_message", (data) => {
+    sockets.on("send_message", (data) => {
+      console.log(data);
       messages.push(data);
       setMessages([...messages]);
     });
