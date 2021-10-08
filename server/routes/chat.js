@@ -91,6 +91,20 @@ router.put("/join/channel", async (req, res, next) => {
   }
 });
 
+//SENDING MEMBERS IN CHANNEL
+router.get("/:channelId/members", async (req, res, next) => {
+  const channelId = req.params.channelId;
+
+  const members = await Channel.findById(channelId);
+  const membersId = members.userName;
+
+  const membersName = await User.find({ _id: membersId }, { username: 1 });
+
+  res.status(200).send(membersName);
+
+  next();
+});
+
 //DELETE CHANNEL
 router.delete("/delete/channel", (req, res) => {});
 

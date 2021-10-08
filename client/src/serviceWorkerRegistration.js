@@ -9,6 +9,7 @@
 
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://cra.link/PWA
+import store from "./store";
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
@@ -21,8 +22,7 @@ const isLocalhost = Boolean(
 );
 
 export function register(config) {
-  if ("serviceWorker" in navigator) {
-    //   process.env.NODE_ENV === "production" &&
+  if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
@@ -93,6 +93,32 @@ function registerValidSW(swUrl, config) {
           }
         };
       };
+      //After registering listening for the sync event
+      if ("sync" in registration) {
+        const form = document.querySelector("#chatInput");
+        const messageBody = form.querySelector("#messageBody");
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          const message = {
+            body: messageBody.value,
+          };
+          store
+            .outbox("readwrite")
+            .then(function (outbox) {
+              return outbox.put(message);
+            })
+            .then(function () {
+              messageBody.value = "";
+              return registration.sync.register("outbox");
+            })
+            .catch(function (err) {
+              // something went wrong with the database or the sync registration, log and submit the form
+              console.error(err);
+              // form.submit((e) => e.preventDefault());
+            });
+        });
+      }
     })
     .catch((error) => {
       console.error("Error during service worker registration:", error);

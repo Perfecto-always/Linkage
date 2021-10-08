@@ -7,30 +7,29 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const http = require("http");
-const server = http.createServer(app);
-const { Server } = require("socket.io");
 const path = require("path");
 
 //IMPORT DEPENDENTS
-//USING CORS, COOKIE PARSER
+//USING CORS, COOKIE PARSER, BODY-PARSER
 app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "http://localhost:5000"],
   })
 );
 
 //INCLUDES DEVELOPMENT BUILD
-// app.use(express.static(path.join(__dirname, "../client/build")));
+app.use(express.static(path.join(__dirname, "../client/build")));
 
-// app.get("/*", function (req, res) {
-//   res.sendFile(path.join(__dirname, "..", "client", "build"));
-// });
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "..", "client", "build"));
+});
 
 //ROUTES IMPORT
 const authRoute = require("./routes/auth");
 const chatRoute = require("./routes/chat");
+const musicRoute = require("./routes/music");
 
 dotenv.config({ path: __dirname + "/.env" });
 
@@ -51,34 +50,9 @@ mongoose.set("useFindAndModify", false);
 //ROUTES MIDDLEWARE
 app.use("/api/user", authRoute);
 app.use("/chat", chatRoute);
-
-//SOCKET IO WORK
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
-});
-
-const chatNsp = io.of("/chat/channel");
-
-// let channel = "";
-
-chatNsp.on("connection", (socket) => {
-  console.log("A User Connected");
-
-  socket.on("send_message", (msg) => {
-    const channelId = msg.channel_id;
-    socket.join(channelId);
-    chatNsp.in(channelId).emit("recieve_message", msg);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-  });
-});
+app.use("/music", musicRoute);
 
 const PORT = 8080;
-server.listen(PORT, () =>
+app.listen(PORT, () =>
   console.log(`Listening on port: http://localhost:${PORT}`)
 );

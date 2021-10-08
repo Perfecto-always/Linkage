@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import axios from "axios";
 import Modal from "../components/Modal";
+import { withRouter } from "react-router";
 
 function Login() {
   const history = useHistory();
@@ -131,4 +132,4 @@ function Login() {
     </div>
   );
 }
-export default Login;
+export default withRouter(Login);

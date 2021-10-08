@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { io } from "socket.io-client";
-import SOCKET_IO_CONNECTION from "../../config/urls";
+import socket from "../../config/sockets";
+import send from "../../assets/icons/send.svg";
+import attach from "../../assets/icons/attach.svg";
+import emoji from "../../assets/icons/emoji.svg";
+import IndexedDB from "../../database/IndexedDB";
 
-const sockets = io(SOCKET_IO_CONNECTION);
 const userName = JSON.parse(localStorage.getItem("username"));
 
 function ChatInput({ channelId, messages, setMessages }) {
   const [isMessage, setIsMessage] = useState("");
 
+  //USE MEMO JUST FOR NOTHING IMO
   useMemo(() => [{ messages, setMessages }], [messages, setMessages]);
 
   const onMessageChange = (e) => {
@@ -19,10 +22,11 @@ function ChatInput({ channelId, messages, setMessages }) {
 
     if (isMessage === null || isMessage === "") return null;
 
-    sockets.emit("send_message", {
+    socket.emit("messaging", {
+      channel_id: channelId,
       username: userName,
       newMessage: isMessage,
-      channel_id: channelId,
+      date: new Date().toLocaleString(),
     });
 
     setIsMessage("");
@@ -35,40 +39,55 @@ function ChatInput({ channelId, messages, setMessages }) {
   };
 
   useEffect(() => {
-    sockets.on("send_message", (data) => {
-      console.log(data);
-      messages.push(data);
-      setMessages([...messages]);
+    socket.on("messaging", (data) => {
+      setMessages((message) => [...message, data]);
+      IndexedDB(data.channel_id).add({
+        username: data.username,
+        newMessage: data.newMessage,
+        date: data.date,
+      });
     });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [setMessages]);
 
   return (
     <>
-      <input
-        className='bg-gray-700 w-full p-3 rounded-lg outline-none text-white'
-        type='text'
-        value={isMessage}
-        onChange={onMessageChange}
-        placeholder='Enter to send message'
-      />
-      <button
-        type='submit'
-        className='bg-pink-700 duration-300 hover:bg-pink-800 p-4 rounded-lg'
-        onClick={messageHandler}
-      >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          width='16'
-          height='16'
-          fill='currentColor'
-          className='bi bi-cursor-fill'
-          viewBox='0 0 16 16'
-        >
-          <path d='M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z' />
-        </svg>
-      </button>
+      <form action='/messages' method='POST' id='chatInput' className='w-full'>
+        <div className='bg-gray-700 w-full flex rounded-lg p-1'>
+          <input
+            id='messageBody'
+            className='bg-transparent w-full py-2 px-4  outline-none text-white'
+            type='text'
+            value={isMessage}
+            onChange={onMessageChange}
+            placeholder='Enter to send message'
+          />
+          <div className='flex justify-around px-3 space-x-1'>
+            <button>
+              <img
+                src={attach}
+                alt='attach'
+                className='hover:bg-gray-600 w-10 p-1 rounded-full'
+              />
+            </button>
+
+            <button>
+              <img
+                src={emoji}
+                alt='attach'
+                className='hover:bg-gray-600 w-10 p-1 rounded-full'
+              />
+            </button>
+
+            <button type='submit' onClick={messageHandler}>
+              <img
+                src={send}
+                alt='send'
+                className='hover:bg-gray-600 w-10 p-1 rounded-full'
+              />
+            </button>
+          </div>
+        </div>
+      </form>
     </>
   );
 }

@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 //PAGE
 import SideBar from "./SideBar";
 import Chat from "../../pages/Chats/Chat";
-import Music from "../../pages/Music/Music";
+import MusicAuth from "../../pages/Music/MusicAuth";
 import Setting from "../../pages/Settings/Setting";
 
 const sidebarRoutes = [
@@ -16,7 +16,7 @@ const sidebarRoutes = [
   {
     id: "2",
     path: "/music",
-    main: () => <Music />,
+    main: () => <MusicAuth />,
   },
   {
     id: "3",

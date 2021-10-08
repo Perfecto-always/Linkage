@@ -12,6 +12,7 @@ import { ExpirationPlugin } from "workbox-expiration";
 import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate } from "workbox-strategies";
+import store from "./store";
 
 clientsClaim();
 
@@ -71,3 +72,41 @@ self.addEventListener("message", (event) => {
 });
 
 // Any other custom service worker logic can go here.
+//The service worker receives the port, saves a reference to it and uses it to send a message to the other side:
+self.addEventListener("sync", function (event) {
+  event.waitUntil(
+    store
+      .outbox("readonly")
+      .then(function (outbox) {
+        return outbox.getAll();
+      })
+      .then(function (messages) {
+        return Promise.all(
+          messages.map(function (message) {
+            return fetch("/messages", {
+              method: "POST",
+              body: JSON.stringify(message),
+              headers: {
+                Accept: "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+                "Content-Type": "application/json",
+              },
+            })
+              .then(function (response) {
+                return response.json();
+              })
+              .then(function (data) {
+                if (data.result === "success") {
+                  return store.outbox("readwrite").then(function (outbox) {
+                    return outbox.delete(message.id);
+                  });
+                }
+              });
+          })
+        );
+      })
+      .catch(function (err) {
+        console.error(err);
+      })
+  );
+});

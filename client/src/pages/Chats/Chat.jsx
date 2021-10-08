@@ -6,9 +6,15 @@ import { Route, Switch, NavLink } from "react-router-dom";
 import Messages from "./Messages";
 import Modal from "../../components/Modal";
 
+const channelData = JSON.parse(localStorage.getItem("channels"));
+
 function Chat() {
   //VARIOUS STATES
-  const [isChannelName, setIsChannelName] = useState([]);
+  const [isChannelName, setIsChannelName] = useState(
+    (channelData && channelData.length < 1) || channelData === null
+      ? []
+      : [...channelData]
+  );
   const [isOpen, setIsOpen] = useState(false);
   const [isNew, setIsNew] = useState(false);
 
@@ -43,7 +49,10 @@ function Chat() {
   const fetchData = async (res) => {
     await axios
       .get("http://localhost:8080/chat/channel", { withCredentials: true })
-      .then((res) => setIsChannelName(res.data))
+      .then((res) => {
+        localStorage.setItem("channels", JSON.stringify(res.data));
+        setIsChannelName(channelData);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -73,17 +82,18 @@ function Chat() {
             Chats
           </h1>
           <ul className='w-10/12 overflow-auto scroll-hidden'>
-            {isChannelName.map((channel) => (
-              <li key={channel.channelId} className='flex w-full my-1'>
-                <NavLink
-                  exact
-                  to={`/chat/channel/${channel.channelId}`}
-                  children={channel.channelName}
-                  className='p-2 hover:bg-gray-700 w-full rounded-lg text-left'
-                  activeClassName='bg-gray-700'
-                />
-              </li>
-            ))}
+            {channelData &&
+              isChannelName.map((channel) => (
+                <li key={channel.channelId} className='flex w-full my-1'>
+                  <NavLink
+                    exact
+                    to={`/chat/channel/${channel.channelId}`}
+                    children={channel.channelName}
+                    className='p-2 hover:bg-gray-700 w-full rounded-lg text-left'
+                    activeClassName='bg-gray-700'
+                  />
+                </li>
+              ))}
           </ul>
           <div className=' w-full top-full sticky h-16 flex divide-x'>
             <button
@@ -111,15 +121,16 @@ function Chat() {
           </div>
         </div>
         <Switch>
-          {isChannelName.map((channel) => (
-            <Route
-              exact
-              key={channel.channelId}
-              path={`/chat/channel/${channel.channelId}`}
-            >
-              <Messages channelId={channel.channelId} />
-            </Route>
-          ))}
+          {channelData &&
+            isChannelName.map((channel) => (
+              <Route
+                exact
+                key={channel.channelId}
+                path={`/chat/channel/${channel.channelId}`}
+              >
+                <Messages channelId={channel.channelId} />
+              </Route>
+            ))}
         </Switch>
       </div>
     </>
