@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+## Explaning the folder structure
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**assest:**
+- company icons: contains all the company logos.
+- images: contains all the images used in the website.
+- icons: contains all the icons used in the website.
+- logo: logo of the company.
 
-## Available Scripts
+**authentication:**
+Has login and register pages for the user. Needs a bit of refactoring and a custom component for the input elements.
 
-In the project directory, you can run:
+**components:**
+Components need to be created as of now they are just used as a wrapper.
 
-### `npm start`
+**config:**
+Contains socket io and backend api connection settings and urls.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**firebase:**
+Don't know if its needed. Its just there to act as a storage house for messages and possibly images. Might be moved in the config folder. in future.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+**hooks:**
+Essential parts doesn't have to be explained what its used for 'cux' ofcourse the name is self explanatory.
 
-### `npm test`
+**layout:**
+Contains the main layout of the website. Or just a some complex components what I like to call.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**misc:**
+This is just used by some hooks.
 
-### `npm run build`
+**pages:**
+Star of every website aka _pages_. House of main components like Chats, Music, settings, etc.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**redcuers:**
+Reducers are used to update the state of the application.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**routes:**
+Contains all the routes of the website.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**store:**
+House of all reducers need a _function_ to create a reducer automatically without having to write it again and again.
 
-### `npm run eject`
+    const { readdirSync } = require('fs');
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    const events = readdirSync('./reducers/').filter(file => file.endsWith('.ts'));
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    for (const file of events) {
+    const event = require(`../reducers/${file}`);
+    console.log(`-> Loaded event ${file.split('.')[0]}`);
+    client.on(file.split('.')[0], event.bind(null, client));
+    delete require.cache[require.resolve(`../events/${file}`)];
+    };
+    
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+This is however not a complete function to automate the creation of reducers. But is just a gist of it.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**styles:**
+Used only for custom styling.
 
-## Learn More
+**workers:**
+This is possibly could be the most important file since workers are yet to written so that the main thread aren't blocked. This is pretty much a TODO which needs to be completed for performance metrics.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## TODO List
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Create a custom component for the input elements.
+2. Recieving messaged and sending messaged need to be refactored.
+3. Creation of web workers.
+4. Add image uploading and sending via web socket functinality.
+5. Dropdown which has _invite_ and _delete_ options as a very least.
+6. Homepage and about pages are there but are really not designed well and looks pretty ugly when compared to rest of the application.

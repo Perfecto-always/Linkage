@@ -1,11 +1,12 @@
 const router = require("express").Router();
-const User = require("../model/User");
+const { User } = require("../model/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const {
   registerValidation,
   loginValidation,
 } = require("../functions/userVadlid");
+const authenticate = require("../middleware/authenticate");
 
 //REGISTER USER
 router.post("/register", async (req, res) => {
@@ -53,7 +54,14 @@ router.post("/login", async (req, res) => {
       .send({ auth: false, message: error.details[0].message });
 
   //CHECKING USER IN DATABASE
-  const userExists = await User.findOne({ email: req.body.email });
+  const userExists = await User.findOneAndUpdate(
+    { email: req.body.email },
+    {
+      $set: {
+        isActive: true,
+      },
+    }
+  );
   if (!userExists)
     return res
       .status(404)
@@ -78,6 +86,24 @@ router.post("/login", async (req, res) => {
     message: `Welcome ${userExists.username}`,
     username: userExists.username,
   });
+});
+
+// LOGOUT USER
+router.post("/logout", authenticate, async (req, res) => {
+  if (req.cookies.user_id__token === undefined)
+    return res.status(200).send({ message: "Already logged out" });
+  if (req.userIdParams === undefined || req.userIdParams === null)
+    return res.status(400).send({ message: "Invalid call made" });
+  await User.findOneAndUpdate(
+    { _id: req.userIdParams },
+    {
+      $set: {
+        isActive: false,
+      },
+    }
+  );
+  res.cookie("user_id__token", "", { maxAge: 0 });
+  res.status(200).send({ message: "Logged out" });
 });
 
 module.exports = router;

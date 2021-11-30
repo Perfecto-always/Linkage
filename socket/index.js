@@ -16,11 +16,17 @@ const io = require("socket.io")(httpServer, {
 
 io.on("connection", (socket, data) => {
   console.log("user connected");
-  let channelId = "";
+  // let channelId = "";
 
   socket.on("join_channel", (data) => {
-    if (data === null) return;
+    if (!data) return;
     socket.join(data);
+  });
+
+  socket.on("leave_channel", (data) => {
+    if (!data) return;
+    // console.log("this user " + "has left the channel :" + data);
+    socket.leave(data);
   });
 
   socket.on("messaging", ({ channel_id, username, newMessage, date }) => {

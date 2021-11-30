@@ -4,139 +4,81 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Goblin+One&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Notable&display=swap");
 
 /* STYLES */
-
 
 /*PSUEDO STYLING*/
 
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background-color: rgba(255, 255, 255, 0);
-    margin: 2px;
+  background-color: rgba(255, 255, 255, 0);
+  margin: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: gray;
-    border-radius: 5px;
+  background-color: gray;
+  border-radius: 5px;
 }
 
 ::placeholder {
-    /* Chrome, Firefox, Opera, Safari 10.1+ */
-    @apply text-gray-600 font-medium;
-    opacity: 1;
-    /* Firefox */
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  @apply text-gray-600 font-medium;
+  opacity: 1;
+  /* Firefox */
 }
 
 ::-ms-input-placeholder {
-    /*Microsoft Edge */
-    @apply text-gray-600 font-medium;
+  /*Microsoft Edge */
+  @apply text-gray-600 font-medium;
 }
 
 html {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* fonts */
 .font-goblin {
-    font-family: "Goblin One", cursive;
+  font-family: "Goblin One", cursive;
 }
 
 .font-poppins-700 {
-    font-family: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
-.sidebar {
-    @apply py-2 h-screen text-black border-r border-gray-200;
-}
-
-.sidebar .side-items {
-    @apply justify-center space-y-4;
-}
-
-.sidebar .side-items a {
-    @apply p-2 max-w-max block;
-}
-
-.main-content {
-    @apply w-full;
-}
-
-.sidebar a:hover {
-    @apply transition-colors duration-300 ease-in-out rounded-lg cursor-pointer;
-}
-
-.sidebar .side-items a:active {
-    @apply rounded-lg cursor-pointer;
+.font-notable {
+  font-family: "Notable", sans-serif;
 }
 
 .active {
-    @apply rounded-lg;
-}
-
-.gradient {
-    background: url("../assets/images/gradient.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-@media (max-width: 768px) {
-    .gradient {
-        display: none;
-    }
-    .form-fields {
-        @apply w-full;
-    }
-}
-
-.form-full-page-container {
-    @apply w-full h-screen bg-gradient-to-r from-indigo-300 to-violet-300 flex justify-center self-center;
-}
-
-.form-container {
-    @apply w-9/12 h-5/6 bg-white absolute top-1/2 transform -translate-y-2/4 rounded-3xl flex shadow-2xl;
-}
-
-.form-side-container {
-    @apply w-5/12 h-full rounded-l-3xl;
-}
-
-.form-main-container {
-    @apply flex justify-center self-center w-8/12 h-full form-fields text-left;
-}
-
-.container-full-page {
-    @apply w-full h-screen flex justify-center self-center flex-col;
-}
-
-.error {
-    @apply text-9xl font-bold text-white tracking-wider relative;
+  @apply rounded-lg;
 }
 
 .active-nav {
-    @apply text-black;
+  @apply text-black;
 }
 
 .scroll-hidden::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .main-home,
 .about {
-    height: calc(100vh - 5rem);
+  height: calc(100vh - 5rem);
 }
 
 .hover-none:hover {
-    filter: none;
+  filter: none;
 }
 
 .snap-parent {
-    scroll-behavior: smooth;
-    scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
 }
 
 .snap-children {
-    scroll-snap-align: start;
+  scroll-snap-align: start;
 }

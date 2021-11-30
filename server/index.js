@@ -6,8 +6,6 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const http = require("http");
-const path = require("path");
 
 //IMPORT DEPENDENTS
 //USING CORS, COOKIE PARSER, BODY-PARSER
@@ -20,11 +18,11 @@ app.use(
 );
 
 //INCLUDES DEVELOPMENT BUILD
-app.use(express.static(path.join(__dirname, "../client/build")));
+// app.use(express.static(path.join(__dirname, "../client/build")));
 
-app.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "..", "client", "build"));
-});
+// app.get("/*", function (req, res) {
+//   res.sendFile(path.join(__dirname, "..", "client", "build"));
+// });
 
 //ROUTES IMPORT
 const authRoute = require("./routes/auth");

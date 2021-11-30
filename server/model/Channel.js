@@ -6,7 +6,12 @@ const channelSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    userName: [String],
+    userName: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   { timestamps: true }
 );

@@ -3,7 +3,7 @@ const Joi = require("joi");
 //REGISTRATION VALIDATION
 const registerValidation = (data) => {
   const schema = Joi.object({
-    username: Joi.string().min(6).required(),
+    username: Joi.string().min(3).required(),
     email: Joi.string()
       .email({
         minDomainSegments: 2,

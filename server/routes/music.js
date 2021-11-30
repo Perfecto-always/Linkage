@@ -35,12 +35,14 @@ router.post("/access/spotify", (req, res) => {
 // ACCESS TOKEN SINCE IT ONLY LAST OF 60 SECONDS
 router.post("/refresh/spotify", (req, res) => {
   const REFRESH_TOKEN = req.body.refreshToken;
+  const ACCESS_TOKEN = req.body.accessToken;
 
   const spotifyApi = new SpotifyWebApi({
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     redirectUri: process.env.REDIRECT_URI,
     refreshToken: REFRESH_TOKEN,
+    accessToken: ACCESS_TOKEN,
   });
 
   spotifyApi
