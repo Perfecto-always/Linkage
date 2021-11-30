@@ -9,7 +9,7 @@ function Auth() {
     <>
       <div className='w-full h-screen bg-primary-500 text-white flex flex-col justify-center self-center relative'>
         <nav
-          className='inline-flex text-3xl h-12 p-5 font-medium
+          className='inline-flex text-2xl h-12 p-5 font-medium
         sm:self-center sm:p-2
         '
         >
