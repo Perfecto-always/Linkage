@@ -17,7 +17,6 @@ function Particles({
   isSuccess,
 }: ParticlesProps) {
   useEffect(() => {
-    console.log(openModal);
     if (!openModal) return;
     const timeout = setTimeout(() => closeModal!(false), 2000);
 

@@ -1,21 +1,12 @@
 {
     "name": "Praline",
+    "shortname": "praline",
+    "description": "Praline is a chat application with a bit of focus on music though its a new commer but it offers same features as a regualer chat app.",
     "icons": [{
-            "src": "favicon.ico",
-            "sizes": "64x64 32x32 24x24 16x16",
-            "type": "image/x-icon"
-        },
-        {
-            "src": "logo192.png",
-            "type": "image/png",
-            "sizes": "192x192"
-        },
-        {
-            "src": "logo512.png",
-            "type": "image/png",
-            "sizes": "512x512"
-        }
-    ],
+        "src": "favicon.ico",
+        "sizes": "64x64 32x32 24x24 16x16",
+        "type": "image/x-icon"
+    }],
     "start_url": "./chat",
     "scope": ".",
     "display": "standalone",

@@ -45,12 +45,7 @@ export function register(config?: Config) {
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
-        navigator.serviceWorker.ready.then(() => {
-          console.log(
-            "This web app is being served cache-first by a service " +
-              "worker. To learn more, visit https://cra.link/PWA"
-          );
-        });
+        navigator.serviceWorker.ready.then(() => {});
       } else {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config);
@@ -74,11 +69,6 @@ function registerValidSW(swUrl: string, config?: Config) {
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
-              console.log(
-                "New content is available and will be used when all " +
-                  "tabs for this page are closed. See https://cra.link/PWA."
-              );
-
               // Execute callback
               if (config && config.onUpdate) {
                 config.onUpdate(registration);
@@ -87,8 +77,6 @@ function registerValidSW(swUrl: string, config?: Config) {
               // At this point, everything has been precached.
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
-              console.log("Content is cached for offline use.");
-
               // Execute callback
               if (config && config.onSuccess) {
                 config.onSuccess(registration);
@@ -126,11 +114,7 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
         registerValidSW(swUrl, config);
       }
     })
-    .catch(() => {
-      console.log(
-        "No internet connection found. App is running in offline mode."
-      );
-    });
+    .catch(() => {});
 }
 
 export function unregister() {

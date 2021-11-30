@@ -81,7 +81,7 @@ function Register() {
           className='text-left leading-5 mx-5
         md:text-center'
         >
-          <h1 className='mt-10 mb-3 font-poppins-700 text-6xl sm:text-4xl'>
+          <h1 className='mt-10 mb-3 font-poppins-700 text-6xl sm:text-4xl sm:mt-5'>
             Create a New Account
           </h1>
           <p className='mb-3 text-gray-400'>Welcome to Praline.</p>
