@@ -46,7 +46,9 @@ function Particles({
             transition={{ type: "spring", stiffness: 500, damping: 40 }}
             className={`z-50 px-6 py-2 fixed top-3 rounded-lg left-2/4 ${changeBg} text-white shadow-2xl border`}
           >
-            {children}
+            {children.toString().length < 0
+              ? "Internal Server Error"
+              : children}
           </motion.div>
         </AnimatePresence>
       )}
