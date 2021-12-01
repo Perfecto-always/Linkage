@@ -1,13 +1,14 @@
 const httpServer = require("http").createServer();
 const io = require("socket.io")(httpServer, {
-  cors: {
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:5000",
-      "http://localhost:8080",
-    ],
-    methods: ["GET", "POST"],
-  },
+    cors: {
+        origin: [
+            "http://localhost:3000",
+            "http://localhost:5000",
+            "http://localhost:8080",
+            "https://praline.netlify.app",
+        ],
+        methods: ["GET", "POST"],
+    },
 });
 
 //SOCKET IO WORK
@@ -15,36 +16,36 @@ const io = require("socket.io")(httpServer, {
 // let channel = "";
 
 io.on("connection", (socket, data) => {
-  console.log("user connected");
-  // let channelId = "";
+    console.log("user connected");
+    // let channelId = "";
 
-  socket.on("join_channel", (data) => {
-    if (!data) return;
-    socket.join(data);
-  });
-
-  socket.on("leave_channel", (data) => {
-    if (!data) return;
-    // console.log("this user " + "has left the channel :" + data);
-    socket.leave(data);
-  });
-
-  socket.on("messaging", ({ channel_id, username, newMessage, date }) => {
-    // socket.join(channel_id);
-    io.to(channel_id).emit("messaging", {
-      username,
-      newMessage,
-      date,
-      channel_id,
+    socket.on("join_channel", (data) => {
+        if (!data) return;
+        socket.join(data);
     });
-  });
 
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-  });
+    socket.on("leave_channel", (data) => {
+        if (!data) return;
+        // console.log("this user " + "has left the channel :" + data);
+        socket.leave(data);
+    });
+
+    socket.on("messaging", ({ channel_id, username, newMessage, date }) => {
+        // socket.join(channel_id);
+        io.to(channel_id).emit("messaging", {
+            username,
+            newMessage,
+            date,
+            channel_id,
+        });
+    });
+
+    socket.on("disconnect", () => {
+        console.log("user disconnected");
+    });
 });
 
 const PORT = process.env.PORT || 2000;
 httpServer.listen(PORT, () => {
-  console.log("Server listning on port:" + PORT);
+    console.log("Server listning on port:" + PORT);
 });

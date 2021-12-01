@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const SOCKET_IO_CONNECTION = "http://localhost:2000";
+const SOCKET_IO_CONNECTION = "https://praline-websocket.herokuapp.com";
 
 const socket = io(SOCKET_IO_CONNECTION, {
   autoConnect: false,
