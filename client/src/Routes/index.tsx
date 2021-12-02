@@ -13,7 +13,7 @@ export default function AllRoutes() {
   return (
     <Switch>
       {/* <Route exact path={["/", "/home", "/about"]} component={Header} /> */}
-      <Route exact path={["/register", "/login"]} component={Auth} />
+      <Route exact path={["/", "/register", "/login"]} component={Auth} />
       {!username ? (
         <Redirect to='/login' />
       ) : (

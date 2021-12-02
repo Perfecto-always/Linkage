@@ -19,7 +19,7 @@ function Auth() {
         <main className='flex justify-center items-center w-full h-full text-center'>
           <Router>
             <Switch>
-              <Route path='/register' component={Register} />
+              <Route exact path={["/register", "/"]} component={Register} />
               <Route path='/login' component={Login} />
             </Switch>
           </Router>
